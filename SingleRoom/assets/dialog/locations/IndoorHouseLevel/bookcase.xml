@@ -1,0 +1,19 @@
+<data>
+<conversation>
+	<label>question</label>
+	<name>James</name>
+	<portrait>stonefaced</portrait>
+	<text>What do you want to know about?</text>
+	<option_container>
+		<option choice_text="Sqaures">
+			<text>Squares have 4 edges</text>
+		</option>
+		<option choice_text="Triangles">
+			<text>Triangles have 3 edges</text>
+		</option>
+		<option choice_text="Can you repeat the question?">
+			<goto file="bookcase">question</goto>
+		</option>
+	</option_container>
+</conversation>
+</data>
