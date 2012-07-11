@@ -1,6 +1,8 @@
-<conversation occurenceProbability="0.60">
+<conversation>
+<properties type="casual" enabled="true"></properties>
 <prerequisites talkative="4" storyAct="1"></prerequisites>
 <setvars tempInitVar="true"></setvars>
+<statements>
 <statement>
 	<label>question</label>
 	<name>James</name>
@@ -85,4 +87,5 @@
 	<portrait>neutral</portrait>
 	<text>Carry On.</text>	
 </statement>
+</statements>
 </conversation>
