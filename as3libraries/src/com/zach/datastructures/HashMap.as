@@ -36,7 +36,7 @@
 		 * @param	k	Key
 		 * @return	Returns the value, or null
 		 */
-		public function getItem(k:String):Object
+		public function get(k:String):Object
 		{
 			return this[k];
 		}
@@ -49,7 +49,7 @@
 		 * @param	v	Value
 		 * @return	Returns whether or not the object was inserted.
 		 */
-		public function insert(k:String, v:Object):Boolean
+		public function put(k:String, v:Object):Boolean
 		{
 			// already have one
 			if (this[k] != null)
