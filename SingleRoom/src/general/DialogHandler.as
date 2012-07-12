@@ -52,16 +52,15 @@ package general
 				
 				// now to load the actual dialog
 				// look at statements
-				for each ( var conversations:XML in data.statements.elements() )
+				for each ( var statement:XML in data.statements.elements() )
 				{
-					var statement:DialogPiece = new DialogPiece(data);
 					// portrait behavior: when showing dialog in FlxDialog,
 					// and it attempts to get the portrait from the portraits
 					// hashmap, using the string in the dialogpiece or dialogoption
 					// object, if it returns a sprite from the hashmap, use it,
 					// otherwise, load it.
 
-					conversation.statements.push(statement);
+					conversation.statements.put(statement.label, new DialogPiece(statement));
 				}
 				
 				conversations.push(conversation);
