@@ -47,12 +47,14 @@ package general
 		}
 		
 		// type: type of conversation to look up (casual, story, etc)
-		public function getNextAvailableConversation(type:String = null):Conversation
+		private function getNextAvailableConversation(type:String = null):Conversation
 		{
 			for each( var dialog:Conversation in conversations )
 			{
-				if(Boolean(conversation.properties["enabled"]) && conversation.properties["type"] == type)
+				// @TODO: Use actual save data where null is
+				if(Boolean(conversation.properties.get("enabled")) && conversation.properties.get("type") == type && conversation.meetsPrerequisites(null))
 				{
+					conversation.setVars(null);
 					return dialog;
 				}
 			}
