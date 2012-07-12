@@ -1,6 +1,7 @@
 package general 
 {
 	import org.flixel.*;
+	import <Signals>;
 	
 	/**
 	 * ...
@@ -14,9 +15,14 @@ package general
 		public var text:String;
 		public var goto:String;
 		public var options:Array; // an array of dialog options
+		public var portraitImage:FlxSprite;
+		public var gotoStatement:Signal;
+		public var getPortrait:Signal;
 		
 		public function DialogPiece(data:XML) 
 		{
+			getNextStatement = new Signal();
+			getPortrait = new Signal();
 			load(data);
 		}
 		
@@ -28,29 +34,24 @@ package general
 			text = data.text;
 			options = new Array();
 			
-			var optionGoTo:String;
-			var optionPortrait:String;
-			var response:Array = new Array();
-			for each( var xmlOptions:XML in data.option_container.elements() )
+			if(data.option_container != null)
 			{
-				optionGoTo = "";
-				optionPortrait = "";
-				response = new Array();
-				
-				if (xmlOptions.goto != null)
-					optionGoTo = xmlOptions.goto;
-				if (xmlOptions.portrait != null)
-					optionPortrait = xmlOptions.portrait;
-				if (xmlOptions.text != null)
-					response.push(xmlOptions.text);
-				else if (xmlOptions.response != null)
+				for each( var option:XML in data.option_container.elements() )
 				{
-					for each( var xmlResponses:XML in xmlOptions.response.elements() )
-						response.push(xmlResponses);
+					options.push(new DialogOption(option));
 				}
-				
-				options.push(new DialogOption(xmlOptions.@choice_text, optionGoTo, optionPortrait, response));
 			}
+			else
+			{
+				goto = data.goto;
+			}
+			
+			getPortrait.dispatch(portrait);
+		}
+		
+		public function onFinished():void
+		{
+			gotoStatement.dispatch(goto);
 		}
 		
 		public function destroy():void
