@@ -14,6 +14,7 @@ package general
     private varsToSet:HashMap;
     private portraits:HashMap;
     private statements:HashMap; // holds an array of Dialog Pieces
+    private currentDialog:DialogPiece;
     
     public function Conversation(data:XML)
     {
@@ -47,13 +48,15 @@ package general
 	// look at statements
 	for each ( var xmlStatement:XML in data.statements.elements() )
 	{
-		// portrait behavior: when showing dialog in FlxDialog,
-		// and it attempts to get the portrait from the portraits
-		// hashmap, using the string in the dialogpiece or dialogoption
-		// object, if it returns a sprite from the hashmap, use it,
-		// otherwise, load it.
+		var statement = new DialogPiece(xmlStatement);
+		
+		// establish opening dialog
+		if(currentDialog == null)
+		{
+			currentDialog = statement;
+		}
 
-		statements.put(xmlStatement.label, new DialogPiece(xmlStatement));
+		statements.put(xmlStatement.label, statement);
 	}
     }
     
@@ -61,14 +64,16 @@ package general
     {
       for each(var statement:DialogPiece in statements)
       {
-        statement.gotoStatement.add(getNextStatement);
+	// provide method for loading portraits, but not
+	// loading the same portrait multiple times
         statement.getPortrait.add(getPortrait);
       }
     }
     
-    public function getNextStatement(goto:String):DialogPiece
+    public function getNextStatement():DialogPiece
     {
-      return statements.get(goto);
+	var currentDialog = statements.get(currentDialog.goto);
+      	return currentDialog;
     }
     
     public function getPortrait(label:String):FlxImage
