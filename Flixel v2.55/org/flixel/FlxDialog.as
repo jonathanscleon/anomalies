@@ -30,11 +30,9 @@ package org.flixel {
 		 * Called when dialog is finished (optional)
 		 */
 		protected var _finishCallback:Function;
-		
-		/**
-		 * Stores all of the text to be displayed. Each "page" is a string in the array
-		 */
-		protected var _dialogArray:Array;
+
+		protected var _dialog:Conversation;
+		protected var _currentDialog:DialogPiece;
 		
 		/**
 		 * Background rect for the text
@@ -45,7 +43,6 @@ package org.flixel {
 		protected var _height:Number;
 		protected var _backgroundColor:uint;
 		
-		internal var _pageIndex:int;
 		internal var _charIndex:int;
 		internal var _displaying:Boolean;
 		internal var _displaySpeed:Number;
@@ -88,12 +85,12 @@ package org.flixel {
 		/**
 		 * Call this from your code to display some dialog
 		 */
-		public function showDialog(pages:Array):void
+		public function showDialog(dialog:Conversation):void
 		{
-			_pageIndex = 0;
-			_charIndex = 0;
-			_field.text = pages[0].charAt(0);
-			_dialogArray = pages;
+			_dialog = dialog;
+			_currentDialog = _dialog.getCurrentStatement();
+			_charIndex = _currentDialog.text.charAt(0);
+			_field.text = _currentDialog.text.charAt(0);
 			_displaying = true;
 			_bg.alpha = 1;
 			showing = true;
@@ -114,14 +111,14 @@ package org.flixel {
 				{
 					_elapsed = 0;
 					_charIndex++;
-					if(_charIndex > _dialogArray[_pageIndex].length)
+					if(_charIndex > _currentDialog.text.length)
 					{
 						if(_endPageCallback!=null) _endPageCallback();
 						_endPage = true;
 						_displaying = false;
 					}
 					
-					_field.text = _dialogArray[_pageIndex].substr(0, _charIndex);
+					_field.text = _currentDialog.text.substr(0, _charIndex);
 				}
 			}
 			
@@ -131,13 +128,14 @@ package org.flixel {
 				{
 					_displaying = false;
 					_endPage = true;
-					_field.text = _dialogArray[_pageIndex];
+					_field.text = _currentDialog.text;
 					_elapsed = 0;
 					_charIndex = 0;
 				}
 				else if(_endPage)
 				{
-					if(_pageIndex == _dialogArray.length - 1)
+					_currentDialog = _dialog.getNextStatement();
+					if(_currentDialog == null)
 					{
 						//we're at the end of the pages
 						_pageIndex = 0;
@@ -149,7 +147,6 @@ package org.flixel {
 					}
 					else
 					{
-						_pageIndex++;
 						_displaying = true;
 					}
 				}
