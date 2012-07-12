@@ -10,13 +10,52 @@ package general
 	{
 		public var text:String;		// the text for the choice
 		public var goto:String;
-		public var gotoFile:String;
+		private var prerequisites:HashMap;
+		private var varsToSet:HashMap;
 		
-		public function DialogOption(text:String, goto:String, gotoFile:String) 
+		public function DialogOption(option:XML) 
 		{
-			this.text = text;
-			this.goto = goto;
-			this.gotoFile = gotoFile;
+			prerequisites = new HashMap();
+			varsToSet = new HashMap();
+			loadData(option);
+		}
+		
+		private function loadData(data:XML):void
+		{
+			text = data.@choice_text;
+			goto = data.goto;
+			
+			for each ( var xmlPrerequisites:XML in data.prerequisites.attributes() )
+			{
+				prerequisites.put(xmlPrerequisites.name(), xmlPrerequisites.valueOf());
+			}
+			
+			for each ( var xmlVarsToSet:XML in data.setVars.attributes() )
+			{
+				varsToSet.put(xmlVarsToSet.name(), xmlVarsToSet.valueOf());
+			}
+		}
+		
+		public function meetsPrerequisites(saveData:SaveData):bool
+		{
+			if(prerequisites.size() > 0)
+			{
+				// @TODO
+				return true;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		
+		public function setVars(saveData:SaveData):void
+		{
+			// @TODO
+			if(varsToSet.size() > 0)
+			{
+				
+			}
 		}
 	}
 
