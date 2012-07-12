@@ -70,10 +70,22 @@ package general
       }
     }
     
+	public function getCurrentStatement():DialogPiece
+	{
+		return currentDialog;
+	}
+	
     public function getNextStatement():DialogPiece
     {
-	var currentDialog = statements.get(currentDialog.goto);
-      	return currentDialog;
+	if(currentDialog.goto != null)
+	{
+		currentDialog = statements.get(currentDialog.goto);
+      		return currentDialog;
+	}
+	else
+	{
+		return null;
+	}
     }
     
     public function getPortrait(label:String):FlxImage
@@ -89,5 +101,27 @@ package general
         return image;
       }
     }
+
+	public function meetsPrerequisites(saveData:SaveData):bool
+	{
+		if(prerequisites.size() > 0)
+		{
+			// @TODO
+			return true;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	public function setVars(saveData:SaveData):void
+	{
+		// @TODO
+		if(varsToSet.size() > 0)
+		{
+		
+		}
+	}
   }
 }
