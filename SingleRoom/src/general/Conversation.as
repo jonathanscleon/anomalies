@@ -28,19 +28,28 @@ package general
     {
       for each(var statement:DialogPiece in statements)
       {
-        statement.getNextStatement.add(getNextStatement);
+        statement.gotoStatement.add(getNextStatement);
         statement.getPortrait.add(getPortrait);
       }
     }
     
     public function getNextStatement(goto:String):DialogPiece
     {
-      return statements[goto];
+      return statements.get(goto);
     }
     
     public function getPortrait(label:String):FlxImage
     {
-      return portrait[label];
+      if(portrait.get(label) != null)
+      {
+        return portrait.get(label);
+      }
+      else
+      {
+        // load embedded image
+        portrait.put(label, image);
+        return image;
+      }
     }
   }
 }
