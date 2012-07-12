@@ -10,10 +10,10 @@ package general
   public class Conversation
   {
     public properties:HashMap;
-    public prerequisites:HashMap;
-    public varsToSet:HashMap;
-    public portraits:HashMap;
-    public statements:HashMap; // holds an array of Dialog Pieces
+    private prerequisites:HashMap;
+    private varsToSet:HashMap;
+    private portraits:HashMap;
+    private statements:HashMap; // holds an array of Dialog Pieces
     
     public function Conversation(data:XML)
     {
@@ -28,33 +28,33 @@ package general
     
     private function loadData(data:XML):void
     {
-    		for each ( var properties:XML in data.properties.attributes() )
-				{
-					conversation.properties.put(properties.name(), properties.valueOf());
-				}
+    	for each ( var xmlProperties:XML in data.properties.attributes() )
+	{
+		properties.put(xmlProperties.name(), xmlProperties.valueOf());
+	}
 
-				for each ( var prerequisites:XML in data.prerequisites.attributes() )
-				{
-					conversation.prerequisites.put(prerequisites.name(), prerequisites.valueOf());
-				}
+	for each ( var xmlPrerequisites:XML in data.prerequisites.attributes() )
+	{
+		prerequisites.put(xmlPrerequisites.name(), xmlPrerequisites.valueOf());
+	}
 
-				for each ( var varsToSet:XML in data.setVars.attributes() )
-				{
-					conversation.varsToSet.put(varsToSet.name(), varsToSet.valueOf());
-				}
-				
-				// now to load the actual dialog
-				// look at statements
-				for each ( var statement:XML in data.statements.elements() )
-				{
-					// portrait behavior: when showing dialog in FlxDialog,
-					// and it attempts to get the portrait from the portraits
-					// hashmap, using the string in the dialogpiece or dialogoption
-					// object, if it returns a sprite from the hashmap, use it,
-					// otherwise, load it.
+	for each ( var xmlVarsToSet:XML in data.setVars.attributes() )
+	{
+		varsToSet.put(xmlVarsToSet.name(), xmlVarsToSet.valueOf());
+	}
+	
+	// now to load the actual dialog
+	// look at statements
+	for each ( var xmlStatement:XML in data.statements.elements() )
+	{
+		// portrait behavior: when showing dialog in FlxDialog,
+		// and it attempts to get the portrait from the portraits
+		// hashmap, using the string in the dialogpiece or dialogoption
+		// object, if it returns a sprite from the hashmap, use it,
+		// otherwise, load it.
 
-					conversation.statements.put(statement.label, new DialogPiece(statement));
-				}
+		statements.put(xmlStatement.label, new DialogPiece(xmlStatement));
+	}
     }
     
     public function loadListeners():void
