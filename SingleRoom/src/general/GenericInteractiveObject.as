@@ -29,6 +29,11 @@ package general
 		{
 			_dialogHandler.startConversation();
 		}
+		
+		public override function update():void {
+			super.update();
+			_dialogHandler.update();
+		}
 	}
 
 }
