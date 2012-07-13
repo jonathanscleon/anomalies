@@ -28,12 +28,12 @@ package org.flixel.dialog
 			
 			for each ( var xmlPrerequisites:XML in data.prerequisites.attributes() )
 			{
-				_prerequisites.insert(xmlPrerequisites.name(), xmlPrerequisites.valueOf());
+				_prerequisites.insert(xmlPrerequisites.name(), xmlPrerequisites.toString());
 			}
 			
 			for each ( var xmlVarsToSet:XML in data.setVars.attributes() )
 			{
-				_varsToSet.insert(xmlVarsToSet.name(), xmlVarsToSet.valueOf());
+				_varsToSet.insert(xmlVarsToSet.name(), xmlVarsToSet.toString());
 			}
 		}
 		
