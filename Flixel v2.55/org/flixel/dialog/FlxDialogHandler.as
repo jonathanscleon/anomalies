@@ -69,6 +69,11 @@ package org.flixel.dialog
 		{
 			// @TODO
 		}
+		
+		public function update():void
+		{
+			_dialogDisplay.update();
+		}
 	}
 
 }
