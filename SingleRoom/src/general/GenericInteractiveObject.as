@@ -1,7 +1,8 @@
 package general 
 {
 	import org.flixel.*;
-	import general.DialogHandler;
+	import org.flixel.dialog.FlxDialogHandler;
+	import org.flixel.dialog.FlxDialogWithOptions;
 	
 	/**
 	 * An interactable object in the game; no movement.
@@ -9,26 +10,24 @@ package general
 	 */
 	public class GenericInteractiveObject extends FlxSprite
 	{
-		private var dialogBox:FlxDialogWithOptions; // A 2D array; [i] is for the dialog, [i][j] is for the available response options, if any.
-		private var dialogHandler:DialogHandler;
+		private var _dialogHandler:FlxDialogHandler;
 		//private var heldItem:Item;
 		// Also handle events, like handing over items to the player and such
 		
 		public function GenericInteractiveObject(X:int, Y:int, asset:Class = null, dialogAsset:Class = null) 
 		{
 			super(X, Y, asset);
-			dialogBox = new FlxDialogWithOptions();
 			
 			if (dialogAsset != null)
 			{
-				dialogHandler = new DialogHandler(dialogAsset);
-				dialogHandler.load();
+				_dialogHandler = new FlxDialogHandler(dialogAsset);
+				_dialogHandler.load();
 			}
 		}
 		
 		public function showDialog():void
 		{
-			//return dialog;
+			_dialogHandler.startConversation();
 		}
 	}
 

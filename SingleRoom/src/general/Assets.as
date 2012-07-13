@@ -25,8 +25,8 @@ package general
 		[Embed(source = "../../assets/tiles/floor_wood (opengameart - Redshrike - ccby30).png")] public static var FLOORS_TILE:Class;
 		
 		// dialog
-		[Embed(source = "../../assets/dialog/locations/IndoorHouseLevel/armor.xml")] public static var INDOOR_HOUSE_LEVEL_ARMOR:Class;
-		[Embed(source = "../../assets/dialog/locations/IndoorHouseLevel/bookcase.xml")] public static var INDOOR_HOUSE_LEVEL_BOOKCASE:Class;
-		[Embed(source = "../../assets/dialog/characters/testnpc.xml")] public static var TEST_NPC:Class;
+		//[Embed(source = "../../assets/dialog/locations/IndoorHouseLevel/armor.xml")] public static var INDOOR_HOUSE_LEVEL_ARMOR:Class;
+		//[Embed(source = "../../assets/dialog/locations/IndoorHouseLevel/bookcase.xml")] public static var INDOOR_HOUSE_LEVEL_BOOKCASE:Class;
+		[Embed(source = "../../assets/dialog/characters/testnpc.xml", mimeType="application/octet-stream")] public static var TEST_NPC_DIALOG_0:Class;
 	}
 }

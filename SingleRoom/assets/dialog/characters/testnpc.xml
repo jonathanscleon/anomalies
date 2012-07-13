@@ -1,91 +1,94 @@
-<conversation>
-<properties type="casual" enabled="true"></properties>
-<prerequisites talkative="4" storyAct="1"></prerequisites>
-<setvars tempInitVar="true"></setvars>
-<statements>
-<statement>
-	<label>question</label>
-	<name>James</name>
-	<portrait>neutral</portrait>
-	<text>What do you want to know about?</text>
-	<option_container>
-		<option choice_text="Sqaures">
-			<prerequisites likesSquares="true"></prerequisites>
-			<setvars disableConvsersation="true"></setvars>
-			<goto file="testnpc">squares</goto>
-		</option>
-		<option choice_text="Triangles">
-			<goto file="testnpc">triangles</goto>
-		</option>
-		<option choice_text="Can you repeat the question?">
-			<goto file="testnpc">question</goto>
-		</option>
-	</option_container>
-</statement>
-<statement>
-	<label>squares</label>
-	<name>James</name>
-	<portrait>neutral</portrait>
-	<text>Squares have 4 edges</text>
-	<goto file="testnpc">relief</goto>
-</statement>
-<statement>
-	<label>triangles</label>
-	<name>James</name>
-	<portrait>neutral</portrait>
-	<text>Triangles have 3 edges</text>
-	<goto file="testnpc">relief</goto>
-</statement>
-<statement>
-	<label>relief</label>
-	<name>James</name>
-	<portrait>neutral</portrait>
-	<text>What do you think about grapes?</text>
-	<option_container>
-		<option choice_text="Eh, they're ok.">
-			<goto file="testnpc">grapes ok</goto>
-		</option>
-		<option choice_text="Wow why would you eat those things.">
-			<goto file="testnpc">grapes disgust</goto>
-		</option>
-		<option choice_text="Let's talk about geometry instead.">
-			<goto file="testnpc">question</goto>
-		</option>
-	</option_container>
-</statement>
-<statement>
-	<label>grapes ok</label>
-	<name>James</name>
-	<portrait>disappointed</portrait>
-	<text>Because they're good...?</text>
-	<goto file="testnpc">relief</goto>
-</statement>
-<statement>
-	<label>grapes disgust</label>
-	<index>0</index>
-	<name>James</name>
-	<portrait>disappointed</portrait>
-	<text>Squares have 4 edges</text>
-	<goto file="testnpc">relief</goto>
-</statement>
-<statement>
-	<label>grapes disgust</label>
-	<name>James</name>
-	<portrait>disappointed</portrait>
-	<text>And delicious...?</text>
-	<goto file="testnpc">relief</goto>
-</statement>
-<statement>
-	<label>na</label>
-	<name>James</name>
-	<portrait>neutral</portrait>
-	<text>I see.</text>	
-</statement>
-<statement>
-	<label>na</label>
-	<name>James</name>
-	<portrait>neutral</portrait>
-	<text>Carry On.</text>	
-</statement>
-</statements>
-</conversation>
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<conversation>
+		<properties type="casual" enabled="true"></properties>
+		<prerequisites talkative="4" storyAct="1"></prerequisites>
+		<setvars tempInitVar="true"></setvars>
+		<statements>
+			<statement>
+				<label>question</label>
+				<name>James</name>
+				<portrait>neutral</portrait>
+				<text>What do you want to know about?</text>
+				<option_container>
+					<option choice_text="Sqaures">
+						<prerequisites likesSquares="true"></prerequisites>
+						<setvars disableConvsersation="true"></setvars>
+						<goto>squares</goto>
+					</option>
+					<option choice_text="Triangles">
+						<goto>triangles</goto>
+					</option>
+					<option choice_text="Can you repeat the question?">
+						<goto>question</goto>
+					</option>
+				</option_container>
+			</statement>
+			<statement>
+				<label>squares</label>
+				<name>James</name>
+				<portrait>neutral</portrait>
+				<text>Squares have 4 edges</text>
+				<goto>relief</goto>
+			</statement>
+			<statement>
+				<label>triangles</label>
+				<name>James</name>
+				<portrait>neutral</portrait>
+				<text>Triangles have 3 edges</text>
+				<goto>relief</goto>
+			</statement>
+			<statement>
+				<label>relief</label>
+				<name>James</name>
+				<portrait>neutral</portrait>
+				<text>What do you think about grapes?</text>
+				<option_container>
+					<option choice_text="Eh, they're ok.">
+						<goto>grapes ok</goto>
+					</option>
+					<option choice_text="Wow why would you eat those things.">
+						<goto>grapes disgust</goto>
+					</option>
+					<option choice_text="Let's talk about geometry instead.">
+						<goto>question</goto>
+					</option>
+				</option_container>
+			</statement>
+			<statement>
+				<label>grapes ok</label>
+				<name>James</name>
+				<portrait>disappointed</portrait>
+				<text>Because they're good...?</text>
+				<goto>relief</goto>
+			</statement>
+			<statement>
+				<label>grapes disgust</label>
+				<index>0</index>
+				<name>James</name>
+				<portrait>disappointed</portrait>
+				<text>Squares have 4 edges</text>
+				<goto>relief</goto>
+			</statement>
+			<statement>
+				<label>grapes disgust</label>
+				<name>James</name>
+				<portrait>disappointed</portrait>
+				<text>And delicious...?</text>
+				<goto>relief</goto>
+			</statement>
+			<statement>
+				<label>na</label>
+				<name>James</name>
+				<portrait>neutral</portrait>
+				<text>I see.</text>	
+			</statement>
+			<statement>
+				<label>na</label>
+				<name>James</name>
+				<portrait>neutral</portrait>
+				<text>Carry On.</text>	
+			</statement>
+		</statements>
+	</conversation>
+</data>

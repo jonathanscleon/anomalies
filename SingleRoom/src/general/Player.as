@@ -2,6 +2,7 @@ package general
 {
 	import flash.events.WeakFunctionClosure;
 	import org.flixel.*;
+	import org.flixel.dialog.*;
 	import topdown.*;
 	
 	/**

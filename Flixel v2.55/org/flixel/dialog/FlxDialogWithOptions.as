@@ -1,5 +1,7 @@
-package org.flixel 
+package org.flixel.dialog 
 {
+	import org.flixel.*;
+	
 	/**
 	 * An extension of the FlxDialog class, which gives the
 	 * ability to select dialog options.
@@ -13,6 +15,7 @@ package org.flixel
 			super(X, Y, Width, Height, displaySpeed, background, backgroundColor);
 		}
 		
+		/*
 		override public function showDialog(pages:Array):void
 		{
 			_pageIndex = 0;
@@ -24,11 +27,13 @@ package org.flixel
 			showing = true;
 			LOCK_MOVEMENT = true;
 		}
+		*/
 		
 		/**
 		 * The meat of the class. Used to display text over time as well
 		 * as control which page is 'active'
 		 */
+		/*
 		override public function update():void
 		{			
 			if(_displaying)
@@ -82,6 +87,7 @@ package org.flixel
 			
 			super.update();
 		}
+		*/
 	}
 
 }

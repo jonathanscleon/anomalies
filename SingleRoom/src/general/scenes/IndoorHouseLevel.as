@@ -139,7 +139,7 @@ package general.scenes
 			decalGroup.add(sprite);
 			// objects and obstacles
 			// NOTE: this group gets tested for collisions
-			bookcase = new GenericInteractiveObject(
+			bookcase = new FlxSprite(
 				32, // x location
 				0, // y location (showing that you can overlap with the walls if you want)
 				Assets.BOOKCASE_SPRITE // image to use
@@ -159,7 +159,7 @@ package general.scenes
 			sprite.immovable = true;
 			objectGroup.add(sprite);
 			
-			armor = new GenericInteractiveObject(192, 0, Assets.ARMOR_SPRITE);
+			armor = new FlxSprite(192, 0, Assets.ARMOR_SPRITE);
 			armor.immovable = true;
 			objectGroup.add(armor);
 			
@@ -196,7 +196,8 @@ package general.scenes
 		}
 		
 		override protected function createNPCs():void {
-			var homeOwner:NPC = new NPC(Assets.RANGER_SPRITE, 40, 76);
+			//var homeOwner:NPC = new NPC(Assets.RANGER_SPRITE, 40, 76);
+			var homeOwner:NPC = new NPC(40, 76, Assets.RANGER_SPRITE, Assets.TEST_NPC_DIALOG_0);
 			homeOwner.solid = true;
 			homeOwner.immovable = true;
 			this.npcGroup.add(homeOwner);
@@ -252,7 +253,7 @@ package general.scenes
 				}
 				for (var j:uint = 0; j < npcGroup.members.length; j++)
 				{
-					if ((npcGroup.members[j] is GenericInteractiveObject) && npcGroup.members[j].pixelsOverlapPoint(player.speakingRange))
+					if ((npcGroup.members[j] is NPC) && npcGroup.members[j].pixelsOverlapPoint(player.speakingRange))
 					{
 						npcGroup.members[j].showDialog();
 					}

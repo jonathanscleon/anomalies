@@ -1,4 +1,4 @@
-package org.flixel {
+package org.flixel.dialog {
 	
 	
 	import org.flixel.*;
@@ -31,8 +31,8 @@ package org.flixel {
 		 */
 		protected var _finishCallback:Function;
 
-		protected var _dialog:Conversation;
-		protected var _currentDialog:DialogPiece;
+		protected var _dialog:FlxConversation;
+		protected var _currentDialog:FlxDialogPiece;
 		
 		/**
 		 * Background rect for the text
@@ -85,11 +85,11 @@ package org.flixel {
 		/**
 		 * Call this from your code to display some dialog
 		 */
-		public function showDialog(dialog:Conversation):void
+		public function showDialog(dialog:FlxConversation):void
 		{
 			_dialog = dialog;
 			_currentDialog = _dialog.getCurrentStatement();
-			_charIndex = _currentDialog.text.charAt(0);
+			_charIndex = 0;
 			_field.text = _currentDialog.text.charAt(0);
 			_displaying = true;
 			_bg.alpha = 1;
@@ -138,7 +138,6 @@ package org.flixel {
 					if(_currentDialog == null)
 					{
 						//we're at the end of the pages
-						_pageIndex = 0;
 						_field.text = "";
 						_bg.alpha = 0;
 						if(_finishCallback!=null) _finishCallback();

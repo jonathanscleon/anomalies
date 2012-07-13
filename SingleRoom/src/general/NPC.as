@@ -13,8 +13,8 @@ package general
 		 * @param	X	X location of the entity
 		 * @param	Y	Y location of the entity
 		 */
-		public function NPC(asset:Class, X:Number=100, Y:Number=100):void {
-			super(X, Y);
+		public function NPC(X:Number, Y:Number, asset:Class, dialogAsset:Class = null):void {
+			super(X, Y, asset, dialogAsset);
 			loadGraphic(
 				asset, // image to use
 				true, // animated
@@ -22,6 +22,8 @@ package general
 				TopDownEntity.SIZE.x, // width of each frame (in pixels)
 				TopDownEntity.SIZE.y // height of each frame (in pixels)
 			);
+			
 		}
+		
 	}
 }

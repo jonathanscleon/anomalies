@@ -1,13 +1,13 @@
-package general 
+package org.flixel.dialog 
 {
 	import org.flixel.*;
-	import <Signals>;
+	import org.osflash.signals.*;
 	
 	/**
 	 * ...
 	 * @author Jonathan Collins Leon
 	 */
-	public class DialogPiece 
+	public class FlxDialogPiece 
 	{
 		public var label:String;
 		public var name:String;
@@ -19,9 +19,9 @@ package general
 		public var gotoStatement:Signal;
 		public var getPortrait:Signal;
 		
-		public function DialogPiece(data:XML) 
+		public function FlxDialogPiece(data:XML) 
 		{
-			getNextStatement = new Signal();
+			gotoStatement = new Signal();
 			getPortrait = new Signal();
 			load(data);
 		}
@@ -32,26 +32,18 @@ package general
 			name = data.name;
 			portrait = data.portrait;
 			text = data.text;
+			goto = data.goto;
 			options = new Array();
 			
 			if(data.option_container != null)
 			{
 				for each( var option:XML in data.option_container.elements() )
 				{
-					options.push(new DialogOption(option));
+					options.push(new FlxDialogOption(option));
 				}
-			}
-			else
-			{
-				goto = data.goto;
 			}
 			
 			getPortrait.dispatch(portrait);
-		}
-		
-		public function onFinished():void
-		{
-			gotoStatement.dispatch(goto);
 		}
 		
 		public function destroy():void
