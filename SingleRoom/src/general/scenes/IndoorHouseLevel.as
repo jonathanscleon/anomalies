@@ -197,7 +197,7 @@ package general.scenes
 		
 		override protected function createNPCs():void {
 			//var homeOwner:NPC = new NPC(Assets.RANGER_SPRITE, 40, 76);
-			var homeOwner:NPC = new NPC(40, 76, Assets.RANGER_SPRITE, Assets.TEST_NPC_DIALOG_0);
+			var homeOwner:NPC = new NPC(40, 76, Assets.RANGER_SPRITE, Assets.TEST_NPC_DIALOG_0, add, remove);
 			homeOwner.solid = true;
 			homeOwner.immovable = true;
 			this.npcGroup.add(homeOwner);
@@ -242,7 +242,7 @@ package general.scenes
 			
 			// If the player has chosen to interact, see
 			// if there is anything to interact with.
-			if (FlxG.keys.pressed(FlxControls.ACTION_2))
+			if (FlxG.keys.justPressed(FlxControls.ACTION_2))
 			{
 				for (var i:uint = 0; i < objectGroup.members.length; i++)
 				{

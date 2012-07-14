@@ -59,29 +59,15 @@
 				<label>grapes ok</label>
 				<name>James</name>
 				<portrait>disappointed</portrait>
+				<text>Oh. Alright...</text>
+				<goto></goto>
+			</statement>
+			<statement>
+				<label>grapes disgust</label>
+				<name>James</name>
+				<portrait>disappointed</portrait>
 				<text>Because they're good...?</text>
-				<goto>relief</goto>
-			</statement>
-			<statement>
-				<label>grapes disgust</label>
-				<index>0</index>
-				<name>James</name>
-				<portrait>disappointed</portrait>
-				<text>Squares have 4 edges</text>
-				<goto>relief</goto>
-			</statement>
-			<statement>
-				<label>grapes disgust</label>
-				<name>James</name>
-				<portrait>disappointed</portrait>
-				<text>And delicious...?</text>
-				<goto>relief</goto>
-			</statement>
-			<statement>
-				<label>na</label>
-				<name>James</name>
-				<portrait>neutral</portrait>
-				<text>I see.</text>	
+				<goto></goto>
 			</statement>
 			<statement>
 				<label>na</label>

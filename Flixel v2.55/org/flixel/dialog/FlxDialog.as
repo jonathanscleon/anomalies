@@ -2,6 +2,7 @@ package org.flixel.dialog {
 	
 	
 	import org.flixel.*;
+	import org.osflash.signals.Signal;
 	
 	
 	public class FlxDialog extends FlxGroup{
@@ -42,6 +43,10 @@ package org.flixel.dialog {
 		protected var _width:Number;
 		protected var _height:Number;
 		protected var _backgroundColor:uint;
+		protected var _justFinished:Boolean;
+		
+		public var dialogStarted:Signal;
+		public var dialogFinished:Signal;
 		
 		internal var _charIndex:int;
 		internal var _displaying:Boolean;
@@ -72,6 +77,9 @@ package org.flixel.dialog {
 			
 			_displaySpeed = displaySpeed;
 			_bg.alpha = 0;
+			
+			dialogStarted = new Signal();
+			dialogFinished = new Signal();
 		}
 		
 		/**
@@ -87,14 +95,20 @@ package org.flixel.dialog {
 		 */
 		public function showDialog(dialog:FlxConversation):void
 		{
-			_dialog = dialog;
-			_currentDialog = _dialog.getCurrentStatement();
-			_charIndex = 0;
-			_field.text = _currentDialog.text.charAt(0);
-			_displaying = true;
-			_bg.alpha = 1;
-			showing = true;
-			LOCK_MOVEMENT = true;
+			if (!showing && !_justFinished)
+			{
+				_dialog = dialog;
+				_currentDialog = _dialog.getCurrentStatement();
+				_charIndex = 0;
+				_field.text = _currentDialog.text.charAt(0);
+				_displaying = true;
+				_bg.alpha = 1;
+				showing = true;
+				LOCK_MOVEMENT = true;
+				dialogStarted.dispatch(this);
+			}
+			
+			_justFinished = false;
 		}
 		
 		/**
@@ -103,6 +117,13 @@ package org.flixel.dialog {
 		 */
 		override public function update():void
 		{			
+			updateHelper();
+			
+			super.update();
+		}
+		
+		protected function updateHelper():void
+		{
 			if(_displaying)
 			{
 				_elapsed += FlxG.elapsed;
@@ -134,7 +155,7 @@ package org.flixel.dialog {
 				}
 				else if(_endPage)
 				{
-					_currentDialog = _dialog.getNextStatement();
+					_currentDialog = _dialog.getNextStatement(_currentDialog.goto);
 					if(_currentDialog == null)
 					{
 						//we're at the end of the pages
@@ -143,6 +164,7 @@ package org.flixel.dialog {
 						if(_finishCallback!=null) _finishCallback();
 						showing = false;
 						LOCK_MOVEMENT = false;
+						dialogFinished.dispatch(this);
 					}
 					else
 					{
@@ -150,8 +172,6 @@ package org.flixel.dialog {
 					}
 				}
 			}
-			
-			super.update();
 		}
 		
 		/**

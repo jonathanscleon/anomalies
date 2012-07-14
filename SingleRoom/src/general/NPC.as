@@ -13,8 +13,9 @@ package general
 		 * @param	X	X location of the entity
 		 * @param	Y	Y location of the entity
 		 */
-		public function NPC(X:Number, Y:Number, asset:Class, dialogAsset:Class = null):void {
-			super(X, Y, asset, dialogAsset);
+		public function NPC(X:Number, Y:Number, asset:Class, dialogAsset:Class = null, dialogDisplayFunction:Function = null, dialogHideFunction:Function = null) 
+		{
+			super(X, Y, asset, dialogAsset, dialogDisplayFunction, dialogHideFunction);
 			loadGraphic(
 				asset, // image to use
 				true, // animated

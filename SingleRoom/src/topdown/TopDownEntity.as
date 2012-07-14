@@ -20,8 +20,9 @@ package topdown
 		 * @param	X	X location of the entity
 		 * @param	Y	Y location of the entity
 		 */
-		public function TopDownEntity(X:Number = 100, Y:Number = 100, asset:Class = null, dialogAsset:Class = null):void {
-			super(X, Y, asset, dialogAsset);
+		public function TopDownEntity(X:Number = 100, Y:Number = 100, asset:Class = null, dialogAsset:Class = null, dialogDisplayFunction:Function = null, dialogHideFunction:Function = null) 
+		{
+			super(X, Y, asset, dialogAsset, dialogDisplayFunction, dialogHideFunction);
 			
 			makeGraphic(SIZE.x, SIZE.y, 0xFFFF0000); // use this if you want a generic box graphic by default
 			// movement

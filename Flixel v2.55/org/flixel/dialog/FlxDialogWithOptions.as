@@ -19,7 +19,7 @@ package org.flixel.dialog
 		protected var _currentlySelectedOption:uint;
 		protected var _optionsDisplaying:Boolean;
 		
-		public function FlxDialogWithOptions(X:Number=0, Y:Number=0, Width:Number=310, Height:Number=72, displaySpeed:Number=.45, background:Boolean=true, backgroundColor:uint=0x77000000, optionX:Number=0, optionY:Number=0, optionWidth:Number=155, optionHighlightColor:uint=0xcc000000) 
+		public function FlxDialogWithOptions(X:Number=0, Y:Number=0, Width:Number=310, Height:Number=72, displaySpeed:Number=.15, background:Boolean=true, backgroundColor:uint=0x77000000, optionX:Number=0, optionY:Number=0, optionWidth:Number=155, optionHighlightColor:uint=0xcc000000) 
 		{
 			super(X, Y, Width, Height, displaySpeed, background, backgroundColor);
 			_optionX = optionX;
@@ -30,17 +30,16 @@ package org.flixel.dialog
 			_optionBackgrounds = new Array();
 		}
 		
-		private function displayOptions():void
+		protected function displayOptions():void
 		{
 			if(_currentDialog.options.length == 0)
 				return;
 			
-			var optionFieldsHeight:Number = 0.0;
+			var optionFieldsHeight:Number = _bg.height + 5;
 			for each(var option:FlxDialogOption in _currentDialog.options)
 			{
 				var optionField:FlxText = new FlxText(0, optionFieldsHeight, _optionWidth, option.text);
 				optionField.scrollFactor.x = optionField.scrollFactor.y = 0;
-				optionFieldsHeight += optionField.height;
 				_optionFields.push(optionField);
 				
 				var optionFieldHighlight:FlxSprite = new FlxSprite().makeGraphic(_optionWidth, optionField.height, _optionHighlightColor);
@@ -49,6 +48,8 @@ package org.flixel.dialog
 				optionFieldHighlight.y = optionFieldsHeight;
 				optionFieldHighlight.visible = false;
 				_optionBackgrounds.push(optionFieldHighlight);
+				
+				optionFieldsHeight += optionField.height;
 			}
 			
 			_optionBG = new FlxSprite().makeGraphic(_optionWidth, optionFieldsHeight, _backgroundColor);
@@ -71,19 +72,38 @@ package org.flixel.dialog
 			_optionBackgrounds[0].visible = true;
 		}
 		
-		private function updateSelectedOption(direction:String):void
+		protected function hideOptions():void
+		{
+			if (_optionFields.length == 0)
+				return;
+			
+			for (var i:uint = 0; i < _optionFields.length; i++)
+			{
+				remove(_optionBackgrounds[i]);
+				remove(_optionFields[i]);
+				
+				_optionBackgrounds[i].destroy();
+				_optionFields[i].destroy();
+			}
+			
+			_optionBackgrounds = new Array();
+			_optionFields = new Array();
+		}
+		
+		protected function updateSelectedOption(direction:String):void
 		{
 			_optionBackgrounds[_currentlySelectedOption].visible = false;
 			
 			// selections loop around
 			if(direction == FlxControls.DOWN)
 			{
+				trace(_currentlySelectedOption);
 				_currentlySelectedOption = (_currentlySelectedOption + 1) % _optionFields.length;
 			}
 			else if(direction == FlxControls.UP)
 			{
 				if(_currentlySelectedOption == 0)
-					_currentlySelectedOption = _optionFields.length;
+					_currentlySelectedOption = _optionFields.length - 1;
 				else
 					_currentlySelectedOption = (_currentlySelectedOption - 1) % _optionFields.length;
 			}
@@ -95,15 +115,20 @@ package org.flixel.dialog
 		 * The meat of the class. Used to display text over time as well
 		 * as control which page is 'active'
 		 */
-		/*
 		override public function update():void
-		{	
+		{
+			super.update();
+		}
+		
+		override protected function updateHelper():void
+		{
 			if(_displaying)
 			{
 				_elapsed += FlxG.elapsed;
 		
 				if(_elapsed > _displaySpeed)
 				{
+					trace(_charIndex);
 					_elapsed = 0;
 					_charIndex++;
 					if(_charIndex > _currentDialog.text.length)
@@ -118,14 +143,16 @@ package org.flixel.dialog
 				}
 			}
 			
-			if(FlxG.keys.justPressed(FlxControls.UP))
+			if (_optionsDisplaying)
 			{
-				updateSelectedOption(FlxControls.UP);
-			}
-			
-			if(FlxG.keys.justPressed(FlxControls.DOWN))
-			{
-				updateSelectedOption(FlxControls.DOWN);
+				if(FlxG.keys.justPressed(FlxControls.UP))
+				{
+					updateSelectedOption(FlxControls.UP);
+				}
+				else if(FlxG.keys.justPressed(FlxControls.DOWN))
+				{
+					updateSelectedOption(FlxControls.DOWN);
+				}
 			}
 			
 			if(FlxG.keys.justPressed(FlxControls.ACTION_2))
@@ -154,18 +181,19 @@ package org.flixel.dialog
 						if(_finishCallback!=null) _finishCallback();
 						showing = false;
 						LOCK_MOVEMENT = false;
+						_justFinished = true;
+						dialogFinished.dispatch(this);
 					}
 					else
 					{
 						_displaying = true;
 						_optionsDisplaying = false;
 					}
+					
+					hideOptions();
 				}
 			}
-		
-			super.update();
 		}
-		*/
 	}
 
 }

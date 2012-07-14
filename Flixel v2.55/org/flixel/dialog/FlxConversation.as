@@ -77,8 +77,15 @@ package org.flixel.dialog
 		
 		public function getNextStatement(goto:String):FlxDialogPiece
 		{
-			_currentDialog = _statements.getItem(goto) as FlxDialogPiece;
-			return _currentDialog;
+			if (goto.length > 0)
+			{
+				_currentDialog = _statements.getItem(goto) as FlxDialogPiece;
+				return _currentDialog;
+			}
+			else
+			{
+				return null;
+			}
 		}
 		
 		public function getPortrait(label:String):FlxSprite
