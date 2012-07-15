@@ -33,6 +33,7 @@ package general
 		 */
 		override public function create():void {
 			FlxG.mouse.show();
+			Assets.loadSaveData(); // @TODO: player can select/create saves
 			// load level
 			if(LEVEL == null)
 				LEVEL = new IndoorHouseLevel(this, LEVEL_SIZE, BLOCK_SIZE);

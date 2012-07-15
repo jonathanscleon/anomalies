@@ -10,19 +10,20 @@ package org.flixel.dialog
 	 */
 	public class FlxDialogHandler
 	{
-		protected var _conversations:Array; // an array of dialog pieces
+		protected var _conversations:FlxHashMap; // an array of dialog pieces
 		protected var _portraits:FlxHashMap; // @TODO: Move to Conversation class
 		protected var _xmlHandler:FlxXML;
 		protected var _dialogDisplay:FlxDialogWithOptions;
 		protected var _xml:XML;
+		protected var _fileName:String;
+		protected var _saveData:FlxSave;
 		
 		public var dialogStarted:Signal;
 		public var dialogFinished:Signal;
 		
-		public function FlxDialogHandler(asset:Class) 
-		{
+		public function FlxDialogHandler() 
+		{	
 			_xmlHandler = new FlxXML();
-			_xml = _xmlHandler.loadEmbedded(asset);
 			_portraits = new FlxHashMap();
 			_dialogDisplay = new FlxDialogWithOptions();
 			_dialogDisplay.dialogStarted.add(onDialogStarted);
@@ -31,16 +32,47 @@ package org.flixel.dialog
 			dialogFinished = new Signal();
 		}
 		
-		public function load():void
+		public function load(asset:Class, saveData:FlxSave, file:String):void
 		{
-			_conversations = new Array();
+			var conversationProperties:Object;
+			
+			_xml = _xmlHandler.loadEmbedded(asset);
+			_saveData = saveData;
+			
+			_conversations = new FlxHashMap();
+			
+			// load saved properties
+			if (saveData.data.conversationFiles != null)
+			{
+				conversationProperties = saveData.data.conversationFiles[file];
+			}
+			else
+			{
+				saveData.data.conversationFiles = new FlxHashMap();
+			}
+			
 			// look at conversations
 			for each ( var data:XML in _xml.elements() )
 			{
 				var conversation:FlxConversation = new FlxConversation(data);
+				var id:String = conversation.properties.getItem("id") as String;
 				
-				_conversations.push(conversation);
+				if ( conversationProperties != null)
+				{
+					conversation.properties = new FlxHashMap();
+					for ( var propertySaveData:Object in conversationProperties[id].properties)
+					{
+						conversation.properties.insert(propertySaveData.toString(), conversationProperties[id].properties[propertySaveData]);
+					}
+				}
+				
+				_conversations.insert(id, conversation);
 			}
+			
+			if( saveData.data.conversationFiles[file] == null)
+				saveData.data.conversationFiles[file] = _conversations;
+			
+			_fileName = file;
 		}
 		
 		public function startConversation():void
@@ -71,6 +103,11 @@ package org.flixel.dialog
 			return null;
 		}
 		
+		public function getConversationByID(id:String):FlxConversation
+		{
+			return _conversations.getItem(id) as FlxConversation;
+		}
+		
 		private function onDialogStarted(dialog:FlxDialogWithOptions):void
 		{
 			dialogStarted.dispatch(dialog);
@@ -78,6 +115,7 @@ package org.flixel.dialog
 		
 		private function onDialogFinished(dialog:FlxDialogWithOptions):void
 		{
+			// call conversation's setvars somehow
 			dialogFinished.dispatch(dialog);
 		}
 		

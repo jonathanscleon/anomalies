@@ -34,14 +34,20 @@ package org.flixel.dialog
 				properties.insert(xmlProperties.name(), xmlProperties.toString());
 			}
 			
-			for each ( var xmlPrerequisites:XML in data.prerequisites.attributes() )
+			if (data.prerequisistes != null)
 			{
-				_prerequisites.insert(xmlPrerequisites.name(), xmlPrerequisites.toString());
+				for each ( var xmlPrerequisites:XML in data.prerequisites.attributes() )
+				{
+					_prerequisites.insert(xmlPrerequisites.name(), xmlPrerequisites.toString());
+				}
 			}
 			
-			for each ( var xmlVarsToSet:XML in data.setVars.attributes() )
+			if (data.setVars != null)
 			{
-				_varsToSet.insert(xmlVarsToSet.name(), xmlVarsToSet.toString());
+				for each ( var xmlVarsToSet:XML in data.setVars.attributes() )
+				{
+					_varsToSet.insert(xmlVarsToSet.name(), xmlVarsToSet.toString());
+				}
 			}
 			
 			// now to load the actual dialog

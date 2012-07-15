@@ -1,12 +1,31 @@
 package general
 {
 	import flash.utils.ByteArray;
+	import org.flixel.FlxSave;
+	import org.flixel.system.FlxHashMap;
 	/**
 	 * Embeds and imports all assets for the game
 	 * @author Cody Sandahl
 	 */
 	public class Assets
 	{
+		public static var saveData:FlxSave;
+		
+		public static function loadSaveData():void
+		{
+			saveData = new FlxSave();
+			var loaded:Boolean = saveData.bind("AnomaliesTestSaveData");
+			if (loaded && saveData.data.saved == null)
+			//if(loaded)
+			{
+				// init save data if none available
+				saveData.data.saved = true;
+				saveData.data.tempInitVar = false;
+				saveData.data.likesSquares = false;
+				saveData.data.conversationFiles = null;
+			}
+		}
+		
 		// sprites
 		[Embed(source = "../../assets/sprites/ranger (opengameart - Antifarea - ccby30).png")] public static var RANGER_SPRITE:Class;
 		[Embed(source = "../../assets/sprites/rug1 (opengameart - Redshrike - ccby30).png")] public static var RUG1_SPRITE:Class;

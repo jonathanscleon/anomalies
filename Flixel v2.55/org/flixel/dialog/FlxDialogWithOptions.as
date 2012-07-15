@@ -30,6 +30,11 @@ package org.flixel.dialog
 			_optionBackgrounds = new Array();
 		}
 		
+		public function getCurrentDialog():FlxConversation
+		{
+			return _dialog;
+		}
+		
 		protected function displayOptions():void
 		{
 			if(_currentDialog.options.length == 0)
@@ -97,7 +102,6 @@ package org.flixel.dialog
 			// selections loop around
 			if(direction == FlxControls.DOWN)
 			{
-				trace(_currentlySelectedOption);
 				_currentlySelectedOption = (_currentlySelectedOption + 1) % _optionFields.length;
 			}
 			else if(direction == FlxControls.UP)
@@ -128,7 +132,6 @@ package org.flixel.dialog
 		
 				if(_elapsed > _displaySpeed)
 				{
-					trace(_charIndex);
 					_elapsed = 0;
 					_charIndex++;
 					if(_charIndex > _currentDialog.text.length)
@@ -168,8 +171,11 @@ package org.flixel.dialog
 				}
 				else if(_endPage)
 				{
-					if(_optionsDisplaying)
+					if (_optionsDisplaying)
+					{
+						// call setVars of selected option somehow
 						_currentDialog = _dialog.getNextStatement(_currentDialog.options[_currentlySelectedOption].goto);
+					}
 					else
 						_currentDialog = _dialog.getNextStatement(_currentDialog.goto);
 					
