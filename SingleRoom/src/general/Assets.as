@@ -18,6 +18,9 @@ package general
 			if (loaded && saveData.data.saved == null)
 			//if(loaded)
 			{
+				// Change save data so that all saves are done at the character level.
+				// A character will have a list of unavailable conversations, as well as other properties, such as knowledge about the character
+				// What to do about player level data...
 				// init save data if none available
 				saveData.data.saved = true;
 				saveData.data.tempInitVar = false;

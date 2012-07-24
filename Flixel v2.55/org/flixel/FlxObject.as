@@ -15,6 +15,8 @@ package org.flixel
 	 */
 	public class FlxObject extends FlxBasic
 	{
+		public var debug_id:String;
+		
 		/**
 		 * Generic value for "left" Used by <code>facing</code>, <code>allowCollisions</code>, and <code>touching</code>.
 		 */
@@ -95,6 +97,11 @@ package org.flixel
 		 * Y position of the upper left corner of this object in world space.
 		 */
 		public var y:Number;
+		/**
+		 * Z position of the center bottom part of this object in world space.
+		 * Used for z sorting, and does not actually use Flash's Z capabilities.
+		 */
+		public var z:Number;
 		/**
 		 * The width of this object.
 		 */

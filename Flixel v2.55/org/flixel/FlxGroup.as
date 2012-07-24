@@ -9,6 +9,8 @@ package org.flixel
 	 */
 	public class FlxGroup extends FlxBasic
 	{
+		public var debug_id:String;
+		
 		/**
 		 * Use with <code>sort()</code> to sort in ascending order.
 		 */
@@ -28,7 +30,13 @@ package org.flixel
 		 * instead of members.length unless you really know what you're doing!
 		 */
 		public var length:Number;
-
+		
+		/**
+		 * Z position of the center bottom part of this object in world space.
+		 * Used for z sorting, and does not actually use Flash's Z capabilities.
+		 */
+		public var z:Number;
+		
 		/**
 		 * Internal tracker for the maximum capacity of the group.
 		 * Default is 0, or no max capacity.
@@ -47,7 +55,7 @@ package org.flixel
 		 * Helper for sort.
 		 */
 		protected var _sortOrder:int;
-
+		
 		/**
 		 * Constructor
 		 */
@@ -565,7 +573,13 @@ package org.flixel
 		 */
 		protected function sortHandler(Obj1:FlxBasic,Obj2:FlxBasic):int
 		{
-			if(Obj1[_sortIndex] < Obj2[_sortIndex])
+			if (Obj1 == null)
+				return 0;
+			else if (Obj2 == null)
+				return 0;
+			else if (Obj2 == null)
+				return -_sortOrder;
+			else if(Obj1[_sortIndex] < Obj2[_sortIndex])
 				return _sortOrder;
 			else if(Obj1[_sortIndex] > Obj2[_sortIndex])
 				return -_sortOrder;

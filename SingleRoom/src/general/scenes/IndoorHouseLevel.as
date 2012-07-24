@@ -95,6 +95,8 @@ package general.scenes
 				0, // starting index for drawing our tileset (0 = every tile is drawn)
 				uint.MAX_VALUE // which tiles allow collisions by default (uint.MAX_VALUE = no collisions)
 			);
+			tiles.z = 0;
+			tiles.debug_id = "floor";
 			floorGroup.add(tiles);
 			// walls
 			// FFV: make left/right walls' use custom collision rects
@@ -105,6 +107,8 @@ package general.scenes
 				tileSize.x, // width of each tile (in pixels)
 				tileSize.y // height of each tile (in pixels)
 			);
+			tiles.z = 1;
+			tiles.debug_id = "walls";
 			wallGroup.add(tiles);
 			// objects
 			createObjects();
@@ -127,6 +131,8 @@ package general.scenes
 			);
 			sprite.solid = false;
 			sprite.immovable = true;
+			sprite.z = 2;
+			sprite.debug_id = "rug1";
 			decalGroup.add(sprite);
 			
 			sprite = new FlxSprite(
@@ -136,6 +142,8 @@ package general.scenes
 			);
 			sprite.solid = false;
 			sprite.immovable = true;
+			sprite.z = 2;
+			sprite.debug_id = "rug2";
 			decalGroup.add(sprite);
 			// objects and obstacles
 			// NOTE: this group gets tested for collisions
@@ -145,26 +153,38 @@ package general.scenes
 				Assets.BOOKCASE_SPRITE // image to use
 			);
 			bookcase.immovable = true; // don't allow the player to move this object
+			bookcase.z = 2;
+			bookcase.debug_id = "bookcase";
 			objectGroup.add(bookcase);
 			
 			table = new FlxSprite(192, 192, Assets.TABLEROUND_SPRITE);
 			table.immovable = true;
+			table.z = 3;
+			table.debug_id = "table";
 			objectGroup.add(table);
 			
 			sprite = new FlxSprite(176, 192, Assets.CHAIRRIGHT_SPRITE);
 			sprite.immovable = true;
+			sprite.z = 3;
+			sprite.debug_id = "chair_right";
 			objectGroup.add(sprite);
 			
 			sprite = new FlxSprite(216, 192, Assets.CHAIRLEFT_SPRITE);
 			sprite.immovable = true;
+			sprite.z = 3;
+			sprite.debug_id = "chair_left";
 			objectGroup.add(sprite);
 			
 			armor = new FlxSprite(192, 0, Assets.ARMOR_SPRITE);
 			armor.immovable = true;
+			sprite.z = 3;
+			sprite.debug_id = "armor";
 			objectGroup.add(armor);
 			
 			bed = new FlxSprite(16, 192, Assets.BED_SPRITE);
 			bed.immovable = true;
+			bed.z = 3;
+			sprite.debug_id = "bed";
 			objectGroup.add(bed);
 		}
 		
@@ -196,10 +216,11 @@ package general.scenes
 		}
 		
 		override protected function createNPCs():void {
-			//var homeOwner:NPC = new NPC(Assets.RANGER_SPRITE, 40, 76);
 			var homeOwner:NPC = new NPC(40, 76, Assets.RANGER_SPRITE, Assets.TEST_NPC_DIALOG_0, "TEST_NPC_DIALOG_0", add, remove);
 			homeOwner.solid = true;
 			homeOwner.immovable = true;
+			homeOwner.z = 4;
+			homeOwner.debug_id = "npc";
 			this.npcGroup.add(homeOwner);
 		}
 		
@@ -208,28 +229,44 @@ package general.scenes
 		 */
 		override protected function createPlayer():void {
 			player = new Player(playerStart.x, playerStart.y);
+			player.debug_id = "player";
+			player.z = 5;
 		}
 		
 		/**
 		 * Create text, buttons, indicators, etc
 		 */
 		override protected function createGUI():void {
+			/*
 			var instructions:FlxText = new FlxText(0, 0, levelSize.x, "Use ARROW keys to walk around");
 			instructions.alignment = "center";
 			guiGroup.add(instructions);
+			*/
+			guiGroup.debug_id = "gui";
+			guiGroup.z = 6;
 		}
 		
 		/**
 		 * Decide the order of the groups. They are rendered in the order they're added, so last added is always on top.
 		 */
 		override protected function addGroups():void {
-			add(floorGroup);
-			add(wallGroup);
-			add(decalGroup);
-			add(objectGroup);
-			add(npcGroup);
-			add(player);
-			add(guiGroup);
+			for (var i:uint = 0; i < floorGroup.members.length; i++ ) {
+				this.add(floorGroup.members[i]);
+			}
+			for (var j:uint = 0; j < wallGroup.members.length; j++ ) {
+				this.add(wallGroup.members[j]);
+			}
+			for (var k:uint = 0; k < decalGroup.members.length; k++ ) {
+				this.add(decalGroup.members[k]);
+			}
+			for (var m:uint = 0; m < objectGroup.members.length; m++ ) {
+				this.add(objectGroup.members[m]);
+			}
+			for (var n:uint = 0; n < npcGroup.members.length; n++ ) {
+				this.add(npcGroup.members[n]);
+			}
+			this.add(player);
+			this.add(guiGroup);
 		}
 		
 		/**
@@ -273,7 +310,7 @@ package general.scenes
 				}
 			}
 			
-			
+			this.sort("z"); // z sort all objects
 		}
 	}
 }

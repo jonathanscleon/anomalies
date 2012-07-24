@@ -17,6 +17,7 @@
   <classpaths>
     <class path="src" />
     <class path="..\Flixel v2.55" />
+    <class path="..\photonstorm" />
   </classpaths>
   <!-- Build options -->
   <build>
