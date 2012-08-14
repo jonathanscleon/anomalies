@@ -6,15 +6,15 @@ package general
 
 	/**
 	 * State for actually playing the game
-	 * @author Cody Sandahl
+	 * @author Jonathan S. Collins Leon
 	 */
 	public class PlayState extends FlxState
 	{
 		/**
 		 * Constants
 		 */
-		public static var LEVEL_SIZE:FlxPoint = new FlxPoint(240, 240); // level size (in pixels)
-		public static var BLOCK_SIZE:FlxPoint = new FlxPoint(16, 16); // block size (in pixels)
+		public static var LEVEL_SIZE:FlxPoint = new FlxPoint(1920, 1080); // level size (in pixels)
+		public static var BLOCK_SIZE:FlxPoint = new FlxPoint(1, 1); // block size (in pixels)
 		
 		/**
 		 * Current level

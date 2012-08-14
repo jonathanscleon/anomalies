@@ -3,7 +3,7 @@ package
 	import org.flixel.*;
 	import general.*;
 
-	[SWF(width="480", height="480", backgroundColor="#ffffff")]
+	[SWF(width="1920", height="1080", backgroundColor="#ffffff")]
 	[Frame(factoryClass="Preloader")]
 	public class Main extends FlxGame
 	{
@@ -11,7 +11,7 @@ package
 		 * Constructor
 		 */
 		public function Main() {
-			super(240, 240, PlayState, 2);
+			super(1920, 1080, PlayState, 1);
 		}
 	}
 }

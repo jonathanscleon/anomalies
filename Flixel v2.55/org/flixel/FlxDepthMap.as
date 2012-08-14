@@ -1,7 +1,9 @@
 package org.flixel
 {
 	import flash.display.BitmapData;
+	import flash.display.Graphics;
 	import org.flixel.plugin.photonstorm.FlxCollision;
+	import topdown.TopDownEntity;
 	
 	/**
 	 * This class assists in creating the illusion of
@@ -11,7 +13,7 @@ package org.flixel
 	public class FlxDepthMap extends FlxSprite
 	{
 		private const _white:uint = 0xffffff;
-		public var maxZ:uint;
+		public var maxZ:uint = 6;
 		
 		/**
 		 * Creates a white 8x8 square <code>FlxSprite</code> at the specified position.
@@ -23,8 +25,9 @@ package org.flixel
 		 */
 		public function FlxDepthMap(depthMapGraphic:Class)
 		{
-			super(0, 0, depthMap);
+			super(0, 0, depthMapGraphic);
 			this.immovable = true;
+			this.solid = false;
 		}
 		
 		/**
@@ -37,17 +40,20 @@ package org.flixel
 		{
 			// get center bottom of sprite, since we're defining how
 			// the object walks around the field
-			var centerBottomX:Number = obj.x + obj.width / 2;
-			var centerBottomY:Number = obj.y + obj.height;
+			var centerBottomX:Number = obj.x + (obj.width / 2) * obj.scale.x;
+			var centerBottomY:Number = obj.y + obj.height * obj.scale.y;
 			
 			// get the depth of the object's current position
 			var color:uint = pixels.getPixel(centerBottomX, centerBottomY);
 			var scale:Number = color / _white;
 			
 			// scale object based on depthmap to provide illusion of depth
-			obj.scale.x = scale;
-			obj.scale.y = scale;
-			
+			// if collided, ignore scale change
+			if (scale != 0)
+			{
+				obj.scale.x = scale;
+				obj.scale.y = scale;
+			}
 			// update z ordering
 			obj.z = scale * maxZ;
 		}
@@ -64,7 +70,7 @@ package org.flixel
 		{
 			// get collision point
 			var collideX:Number = 0;
-			var collideY:Number = obj.y + obj.height;
+			var collideY:Number = obj.y + (obj.height * obj.scale.y);
 			
 			if (obj.facing == FlxObject.LEFT)
 			{
@@ -72,21 +78,32 @@ package org.flixel
 			}
 			else if (obj.facing == FlxObject.RIGHT)
 			{
-				collideX = obj.x + width;
+				collideX = obj.x + (obj.width * obj.scale.x);
 			}
-			else if ((obj.facing == FlxObject.UP) || (obj.facing == FlxObject.DOWN))
+			else if (obj.facing == FlxObject.UP)
 			{
-				collideX = obj.x + width / 2;
+				collideX = obj.x + (obj.width / 2 * obj.scale.x);
+				collideY -= 5;
+			}
+			else if (obj.facing == FlxObject.DOWN)
+			{
+				collideX = obj.x + (obj.width / 2 * obj.scale.x);
+				collideY += 5;
 			}
 			
 			var collided:Boolean = pixels.getPixel(collideX, collideY) == 0x000000;
 			
+			// stop object movement
 			if (collided)
-				FlxObject.separate(this, obj);
+			{
+				obj.touching |= obj.facing;
+				obj.velocity.x = 0;
+				obj.velocity.y = 0;
+				obj.x = obj.last.x;
+				obj.y = obj.last.y;
+			}
 			
 			return collided;
-			//return FlxCollision.pixelPerfectPointCheck(collideX, collideY, collisionMap);
-			//return pixels.getPixel(collideX, collideY) == 0x000000;
 		}
 	}
 }

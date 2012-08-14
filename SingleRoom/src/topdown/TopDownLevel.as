@@ -25,7 +25,7 @@ package topdown
 		 * Player
 		 */
 		public var player:Player;
-		public var playerStart:FlxPoint = new FlxPoint(120, 120);
+		public var playerStart:FlxPoint = new FlxPoint(420, 620);
 		
 		/**
 		 * Constructor

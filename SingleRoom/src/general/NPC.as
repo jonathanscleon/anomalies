@@ -16,6 +16,7 @@ package general
 		public function NPC(X:Number, Y:Number, asset:Class, dialogAsset:Class = null, dialogFileName:String = null, dialogDisplayFunction:Function = null, dialogHideFunction:Function = null) 
 		{
 			super(X, Y, asset, dialogAsset, dialogFileName, dialogDisplayFunction, dialogHideFunction);
+			
 			loadGraphic(
 				asset, // image to use
 				true, // animated

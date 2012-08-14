@@ -67,6 +67,8 @@ package general.scenes
 		protected var table:FlxSprite;
 		protected var bed:FlxSprite;
 		
+		protected var depthMap:FlxDepthMap;
+		
 		
 		/**
 		 * Constructor
@@ -76,12 +78,16 @@ package general.scenes
 		 */
 		public function IndoorHouseLevel(state:FlxState, levelSize:FlxPoint, blockSize:FlxPoint):void {
 			super(state, levelSize, blockSize);
+			depthMap = new FlxDepthMap(Assets.MARKET_DEPTHMAP);
+			depthMap.z = 0;
+			this.add(depthMap);
 		}
 		
 		/**
 		 * Create the map (walls, decals, etc)
 		 */
 		override protected function createMap():void {
+			/*
 			var tiles:FlxTilemap;
 			// floors
 			tiles = new FlxTilemap();
@@ -112,6 +118,33 @@ package general.scenes
 			wallGroup.add(tiles);
 			// objects
 			createObjects();
+			*/
+			var background:FlxSprite;
+			background = new FlxSprite(0, 0, Assets.MARKET_5);
+			background.z = 1;
+			background.immovable = true;
+			background.solid = false;
+			//floorGroup.add(background);
+			background = new FlxSprite(545, 535, Assets.MARKET_4);
+			background.z = 2;
+			background.immovable = true;
+			background.solid = false;
+			floorGroup.add(background);
+			background = new FlxSprite(698, 365, Assets.MARKET_3);
+			background.z = 3;
+			background.immovable = true;
+			background.solid = false;
+			floorGroup.add(background);
+			background = new FlxSprite(0, 0, Assets.MARKET_2);
+			background.z = 4;
+			background.immovable = true;
+			background.solid = false;
+			floorGroup.add(background);
+			background = new FlxSprite(0, 884, Assets.MARKET_1);
+			background.z = 5;
+			background.immovable = true;
+			background.solid = false;
+			floorGroup.add(background);
 		}
 		
 		/**
@@ -216,21 +249,21 @@ package general.scenes
 		}
 		
 		override protected function createNPCs():void {
-			var homeOwner:NPC = new NPC(40, 76, Assets.RANGER_SPRITE, Assets.TEST_NPC_DIALOG_0, "TEST_NPC_DIALOG_0", add, remove);
+			var homeOwner:NPC = new NPC(40, 76, Assets.NPC_SPRITE, Assets.TEST_NPC_DIALOG_0, "TEST_NPC_DIALOG_0", add, remove);
 			homeOwner.solid = true;
 			homeOwner.immovable = true;
 			homeOwner.z = 4;
 			homeOwner.debug_id = "npc";
-			this.npcGroup.add(homeOwner);
+			//this.npcGroup.add(homeOwner);
 		}
 		
 		/**
 		 * Create the player
 		 */
 		override protected function createPlayer():void {
-			player = new Player(playerStart.x, playerStart.y);
+			player = new Player(playerStart.x, playerStart.y, 54, 144);
 			player.debug_id = "player";
-			player.z = 5;
+			player.z = 6;
 		}
 		
 		/**
@@ -253,6 +286,7 @@ package general.scenes
 			for (var i:uint = 0; i < floorGroup.members.length; i++ ) {
 				this.add(floorGroup.members[i]);
 			}
+			/*
 			for (var j:uint = 0; j < wallGroup.members.length; j++ ) {
 				this.add(wallGroup.members[j]);
 			}
@@ -262,6 +296,7 @@ package general.scenes
 			for (var m:uint = 0; m < objectGroup.members.length; m++ ) {
 				this.add(objectGroup.members[m]);
 			}
+			*/
 			for (var n:uint = 0; n < npcGroup.members.length; n++ ) {
 				this.add(npcGroup.members[n]);
 			}
@@ -276,6 +311,9 @@ package general.scenes
 			super.update(); // NOTE: map -> player collision happens in super.update()
 			FlxG.collide(objectGroup, player);
 			FlxG.collide(npcGroup, player);
+			
+			depthMap.setDepth(player);
+			depthMap.collide(player);
 			
 			// If the player has chosen to interact, see
 			// if there is anything to interact with.
@@ -297,6 +335,7 @@ package general.scenes
 				}
 			}
 			
+			/*
 			for (var k:uint = 0; k < glitchGroup.members.length; k++)
 			{
 				if (FlxG.collide(glitchGroup.members[k], player))
@@ -309,7 +348,7 @@ package general.scenes
 					FlxG.switchState(new BattleState(this));
 				}
 			}
-			
+			*/
 			this.sort("z"); // z sort all objects
 		}
 	}

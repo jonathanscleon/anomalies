@@ -20,15 +20,17 @@ package general
 		 * @param	X	X location of the entity
 		 * @param	Y	Y location of the entity
 		 */
-		public function Player(X:Number=100, Y:Number=100):void {
+		public function Player(X:Number=100, Y:Number=100, width:Number = 16, height:Number = 18):void {
 			super(X, Y);
 			loadGraphic(
-				Assets.RANGER_SPRITE, // image to use
+				Assets.PLAYER_SPRITE, // image to use
 				true, // animated
 				false, // don't generate "flipped" images since they're already in the image
-				TopDownEntity.SIZE.x, // width of each frame (in pixels)
-				TopDownEntity.SIZE.y // height of each frame (in pixels)
+				width, // width of each frame (in pixels)
+				height // height of each frame (in pixels)
 			);
+			origin.x = 0;
+			origin.y = 0;
 			speakingRange = new FlxPoint(X + this.width / 2, Y + this.height / 2);
 		}
 		
