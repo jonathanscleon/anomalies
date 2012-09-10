@@ -9,16 +9,68 @@ package org.flixel.dialog
 	 */
 	public class FlxDialogWithOptions extends FlxDialog
 	{
+		/**
+		 * Initial X location for an option
+		 */
 		protected var _optionX:Number;
+		
+		/**
+		 * Initial Y location for an option
+		 */
 		protected var _optionY:Number;
+		
+		/**
+		 * Option width
+		 */
 		protected var _optionWidth:Number;
-		protected var _optionFields:Array; // array of FlxText
+		
+		/**
+		 * An array of FlxTexts which each contain a
+		 * dialog option
+		 */
+		protected var _optionFields:Array;
+		
+		/**
+		 * An array of FlxSprites used for dialog option backgrounds.
+		 * Specifically, to distinguish highlighted options.
+		 */
 		protected var _optionBackgrounds:Array;
+		
+		/**
+		 * FlxSprite for the background containing all
+		 * the dialog options
+		 */
 		protected var _optionBG:FlxSprite;
+		
+		/**
+		 * Color to be used for highlighted options
+		 */
 		protected var _optionHighlightColor:uint;
+		
+		/**
+		 * Currently selected option
+		 */
 		protected var _currentlySelectedOption:uint;
+		
+		/**
+		 * True if the options are currently being displayed
+		 */
 		protected var _optionsDisplaying:Boolean;
 		
+		/**
+		 * Constructor
+		 * @param	X						Initial X location for the dialog option display
+		 * @param	Y						Initial Y location for the dialog option display
+		 * @param	Width					Width of the dialog option display
+		 * @param	Height					Height of the dialog option display
+		 * @param	displaySpeed			The rate at which words will be revealed
+		 * @param	background				Whether or not to use a background
+		 * @param	backgroundColor			Which color to use for the background
+		 * @param	optionX					Initial X location for the dialog options
+		 * @param	optionY					Initial Y location for the dialog options
+		 * @param	optionWidth				Width of a single dialog option
+		 * @param	optionHighlightColor	Color for highlighted options
+		 */
 		public function FlxDialogWithOptions(X:Number=0, Y:Number=0, Width:Number=310, Height:Number=72, displaySpeed:Number=.15, background:Boolean=true, backgroundColor:uint=0x77000000, optionX:Number=0, optionY:Number=0, optionWidth:Number=155, optionHighlightColor:uint=0xcc000000) 
 		{
 			super(X, Y, Width, Height, displaySpeed, background, backgroundColor);
@@ -30,16 +82,25 @@ package org.flixel.dialog
 			_optionBackgrounds = new Array();
 		}
 		
+		/**
+		 * Get the current dialog being displayed.
+		 * @return	Returns the conversation object for the dialog currently being displayed.
+		 */
 		public function getCurrentDialog():FlxConversation
 		{
 			return _dialog;
 		}
 		
+		/**
+		 * Creates the display for the dialog options
+		 */
 		protected function displayOptions():void
 		{
+			// no dialog options to display
 			if(_currentDialog.options.length == 0)
 				return;
 			
+			// create display
 			var optionFieldsHeight:Number = _bg.height + 5;
 			for each(var option:FlxDialogOption in _currentDialog.options)
 			{
@@ -57,15 +118,18 @@ package org.flixel.dialog
 				optionFieldsHeight += optionField.height;
 			}
 			
+			// create background
 			_optionBG = new FlxSprite().makeGraphic(_optionWidth, optionFieldsHeight, _backgroundColor);
 			_optionBG.scrollFactor.x = _optionBG.scrollFactor.y = 0;
 			_optionBG.x = _optionX;
 			_optionBG.y = _optionY;
-
+			
+			// display background
 			add(_optionBG);
 			
 			_optionBG.alpha = 0;
 			
+			// display options
 			for (var i:uint = 0; i < _optionFields.length; i++)
 			{
 				add(_optionBackgrounds[i]);
@@ -77,6 +141,9 @@ package org.flixel.dialog
 			_optionBackgrounds[0].visible = true;
 		}
 		
+		/**
+		 * Removes the dialog options from the display.
+		 */
 		protected function hideOptions():void
 		{
 			if (_optionFields.length == 0)
@@ -95,6 +162,10 @@ package org.flixel.dialog
 			_optionFields = new Array();
 		}
 		
+		/**
+		 * Updates the selected option.
+		 * @param	direction	Select either the previous or next option
+		 */
 		protected function updateSelectedOption(direction:String):void
 		{
 			_optionBackgrounds[_currentlySelectedOption].visible = false;
@@ -124,8 +195,12 @@ package org.flixel.dialog
 			super.update();
 		}
 		
+		/**
+		 * Class specific update
+		 */
 		override protected function updateHelper():void
 		{
+			// display the dialog at the defined rate
 			if(_displaying)
 			{
 				_elapsed += FlxG.elapsed;
@@ -146,6 +221,8 @@ package org.flixel.dialog
 				}
 			}
 			
+			// change the selected option, if
+			// options are available
 			if (_optionsDisplaying)
 			{
 				if(FlxG.keys.justPressed(FlxControls.UP))
@@ -158,6 +235,7 @@ package org.flixel.dialog
 				}
 			}
 			
+			// skip or end a part of the dialog
 			if(FlxG.keys.justPressed(FlxControls.ACTION_2))
 			{
 				if(_displaying)

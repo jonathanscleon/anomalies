@@ -4,46 +4,89 @@ package org.flixel.dialog
 	import org.osflash.signals.*;
 	
 	/**
-	 * ...
+	 * This class handles a single statement, a subset
+	 * of a conversation.
 	 * @author Jonathan Collins Leon
 	 */
 	public class FlxDialogPiece 
 	{
-		public var label:String;
-		public var name:String;
-		public var portrait:String;
-		public var text:String;
-		public var goto:String;
-		public var options:Array; // an array of dialog options
+		/**
+		 * json object containing statement data
+		 */
+		protected var _data:Object;
+		
+		/**
+		 * Contains an array of FlxDialogPieces
+		 */
+		public var options:Array;
+		
 		public var portraitImage:FlxSprite;
-		public var gotoStatement:Signal;
+		public var gotoStatement:Signal; // unused
+		
+		/**
+		 * Used to request portraits
+		 */
 		public var getPortrait:Signal;
 		
-		public function FlxDialogPiece(data:XML) 
+		/**
+		 * Constructor
+		 * @param	data	json object containing data for a single statement
+		 */
+		public function FlxDialogPiece(data:Object) 
 		{
 			gotoStatement = new Signal();
 			getPortrait = new Signal();
 			load(data);
 		}
 		
-		public function load(data:XML):void
+		/**
+		 * Loads all statement data, as well as
+		 * any available dialog options.
+		 * @param	data	json object containing data for a single statement
+		 */
+		public function load(data:Object):void
 		{
-			label = data.label;
-			name = data.name;
-			portrait = data.portrait;
-			text = data.text;
-			goto = data.goto;
 			options = new Array();
+			_data = data;
 			
-			if(data.option_container != null)
+			if (data.options != null)
 			{
-				for each( var option:XML in data.option_container.elements() )
+				for (var i:uint = 0; i < data.options.length; i++)
 				{
-					options.push(new FlxDialogOption(option));
+					options.push(new FlxDialogOption(data.options[i]));
 				}
 			}
 			
-			getPortrait.dispatch(portrait);
+			// remove redundant data
+			_data.options = null;
+			
+			// request portrait
+			getPortrait.dispatch(data.portrait);
+		}
+		
+		public function get label():String
+		{
+			return _data.label;
+		}
+		
+		public function get name():String
+		{
+			return _data.name;
+		}
+		
+		public function get portrait():String
+		{
+			return _data.portrait;
+		}
+		
+		public function get text():String
+		{
+			return _data.text;
+		}
+		
+		public function get goto():String
+		{
+			return _data.goto;
 		}
 		
 		public function destroy():void

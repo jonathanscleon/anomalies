@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'8/13/2012'</value>
+      <value>'9/9/2012'</value>
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
@@ -30,6 +30,7 @@
       <path-element>D:\Game Development\Anomalies\Source\SingleRoom\lib\as3corelib.swc</path-element>
       <path-element>D:\Game Development\Anomalies\Source\SingleRoom\lib\as3-signals-v0.8.swc</path-element>
       <path-element>D:\Game Development\Anomalies\Source\SingleRoom\lib\GTween_V2_01.swc</path-element>
+      <path-element>D:\Game Development\Anomalies\Source\SingleRoom\lib\actionjson.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>

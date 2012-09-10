@@ -55,6 +55,7 @@
     <element path="lib\as3corelib.swc" />
     <element path="lib\as3-signals-v0.8.swc" />
     <element path="lib\GTween_V2_01.swc" />
+    <element path="lib\actionjson.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

@@ -4,42 +4,42 @@ package org.flixel.dialog
 	import org.flixel.system.FlxHashMap;
 	
 	/**
-	 * ...
+	 * Handles the data for a set of dialog options,
+	 * a subset of a statement, which is a subset
+	 * of a conversation.
 	 * @author Jonathan Collins Leon
 	 */
 	public class FlxDialogOption 
 	{
-		public var text:String;		// the text for the choice
-		public var goto:String;
-		private var _prerequisites:FlxHashMap;
-		private var _varsToSet:FlxHashMap;
+		protected var _data:Object;
 		
-		public function FlxDialogOption(option:XML) 
+		/**
+		 * Constructor
+		 * @param	option	json data containing data for a set of dialog options
+		 */
+		public function FlxDialogOption(option:Object) 
 		{
-			_prerequisites = new FlxHashMap();
-			_varsToSet = new FlxHashMap();
 			loadData(option);
 		}
 		
-		private function loadData(data:XML):void
+		/**
+		 * Loads dialog option data
+		 * @param	option	json data containing data for a set of dialog options
+		 */
+		private function loadData(data:Object):void
 		{
-			text = data.@choice_text;
-			goto = data.goto;
-			
-			for each ( var xmlPrerequisites:XML in data.prerequisites.attributes() )
-			{
-				_prerequisites.insert(xmlPrerequisites.name(), xmlPrerequisites.toString());
-			}
-			
-			for each ( var xmlVarsToSet:XML in data.setVars.attributes() )
-			{
-				_varsToSet.insert(xmlVarsToSet.name(), xmlVarsToSet.toString());
-			}
+			_data = data;
 		}
 		
-		public function meetsPrerequisites(saveData:FlxSave):Boolean
+		/**
+		 * Checks to see if the player's game state
+		 * meets the prerequisites for this dialog
+		 * option to be available.
+		 * @return	Returns true if it meets the prerequisites
+		 */
+		public function meetsPrerequisites():Boolean
 		{
-			if(_prerequisites.size() > 0)
+			if(_data.prerequisites != null)
 			{
 				// @TODO
 				return true;
@@ -50,13 +50,27 @@ package org.flixel.dialog
 			}
 		}
 		
+		/**
+		 * Updates any variables and saves them to AutoSave
+		 * @param	saveData	The save object to save the data to
+		 */
 		public function setVars(saveData:FlxSave):void
 		{
 			// @TODO
-			if(_varsToSet.size() > 0)
+			if(_data.prerequisites != null)
 			{
 				
 			}
+		}
+		
+		public function get text():String
+		{
+			return _data.text;
+		}
+		
+		public function get goto():String
+		{
+			return _data.goto;
 		}
 	}
 

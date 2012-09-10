@@ -1,0 +1,151 @@
+{
+    "conversations": [
+        {
+            "properties": {
+                "id": "intro",
+                "type": "casual",
+                "enabled": "true"
+            },
+            "prerequisites": {
+                "game": {
+                    "var1": "val1",
+                    "var2": "val2"
+                },
+                "character": {
+                    "talkative": "5"
+                },
+                "player": {
+                    "what": "is"
+                },
+                "conversation": {
+                    "enabled": "true"
+                }
+            },
+            "setvars": {
+                "conversation": {
+                    "enabled": "false"
+                },
+                "character": {
+                    "talkative": "-1"
+                }
+            },
+            "statements": [
+                {
+                    "label": "question",
+                    "name": "James",
+                    "portrait": "neutral",
+                    "text": "What do you want to know about?",
+                    "options": [
+                        {
+                            "text": "Squares",
+                            "prerequisites": {
+                                "character": {
+                                    "likesSquares": "true"
+                                }
+                            },
+                            "setvars": {
+                                "conversation": {
+                                    "enabled": "false"
+                                }
+                            },
+                            "goto": "squares"
+                        },
+                        {
+                            "text": "Triangles",
+                            "setvars": {
+                                "character": {
+                                    "likesTriangles": "true"
+                                }
+                            },
+                            "goto": "triangles"
+                        },
+                        {
+                            "text": "Could you repeat the question?",
+                            "goto": "question"
+                        }
+                    ]
+                },
+                {
+                    "label": "squares",
+                    "name": "James",
+                    "portrait": "neutral",
+                    "text": "Squares have 4 edges.",
+                    "goto": "relief"
+                },
+                {
+                    "label": "triangles",
+                    "name": "James",
+                    "portrait": "neutral",
+                    "text": "Triangles have 3 edges.",
+                    "goto": "relief"
+                },
+                {
+                    "label": "relief",
+                    "name": "James",
+                    "portrait": "neutral",
+                    "text": "And that was that."
+                }
+            ]
+        },
+        {
+            "properties": {
+                "id": "grapes",
+                "type": "story",
+                "enabled": "true"
+            },
+            "prerequisites": {
+                "game": {
+                    "var1": "val1",
+                    "var2": "val2"
+                },
+                "character": {
+                    "talkative": "5"
+                },
+                "player": {
+                    "what": "is"
+                },
+                "conversation": {
+                    "enabled": "true"
+                }
+            },
+            "setvars": {
+                "conversation": {
+                    "enabled": "false"
+                },
+                "character": {
+                    "talkative": "-1"
+                }
+            },
+            "statements": [
+                {
+                    "label": "question",
+                    "name": "James",
+                    "portrait": "neutral",
+                    "text": "What do you think about grapes?",
+                    "options": [
+                        {
+                            "text": "Eh, they're ok.",
+                            "goto": "grapes ok"
+                        },
+                        {
+                            "text": "Wow why would you eat those things?",
+                            "goto": "grapes disgust"
+                        }
+                    ]
+                },
+                {
+                    "label": "grapes ok",
+                    "name": "James",
+                    "portrait": "disappointed",
+                    "text": "Oh. Alright..."
+                },
+                {
+                    "label": "grapes disgust",
+                    "name": "James",
+                    "portrait": "disappointed",
+                    "text": "Because they're good...?"
+                }
+            ]
+        }
+    ]
+}

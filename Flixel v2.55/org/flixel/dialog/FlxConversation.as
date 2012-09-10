@@ -4,76 +4,66 @@ package org.flixel.dialog
 	import org.flixel.*;
 
 	/**
-	* ...
+	* This class manages a single conversation.
 	* @author Jonathan Collins Leon
 	*/
 	public class FlxConversation
 	{
-		public var properties:FlxHashMap;
-		protected var _prerequisites:FlxHashMap;
-		protected var _varsToSet:FlxHashMap;
+		/*
+		 * json object containing conversation data
+		 */
+		protected var _data:Object;
+		
+		/**
+		 * Hashmap of FlxSprites
+		 */
 		protected var _portraits:FlxHashMap;
-		protected var _statements:FlxHashMap; // holds an array of Dialog Pieces
+		
+		/**
+		 * Hashmap of statements
+		 */
+		protected var _statements:FlxHashMap;
+		
+		/**
+		 * The statement currently in use
+		 */
 		protected var _currentDialog:FlxDialogPiece;
-
-		public function FlxConversation(data:XML)
+		
+		/**
+		 * Constructor
+		 * @param	data	json object containing conversation data
+		 */
+		public function FlxConversation(data:Object)
 		{
-			properties = new FlxHashMap();
-			_prerequisites = new FlxHashMap();
-			_varsToSet = new FlxHashMap();
 			_portraits = new FlxHashMap();
 			_statements = new FlxHashMap();
 			
 			loadData(data);
 		}
 		
-		private function loadData(data:XML):void
+		/**
+		 * Loads conversation data.
+		 * @param	data	json object containing conversation data
+		 */
+		private function loadData(data:Object):void
 		{
-			for each ( var xmlProperties:XML in data.properties.attributes() )
+			_data = data;
+			_currentDialog = new FlxDialogPiece(data.statements[0]);
+			
+			for (var i:uint = 0; i < data.statements.length; i++)
 			{
-				properties.insert(xmlProperties.name(), xmlProperties.toString());
+				var dialogPiece:FlxDialogPiece = new FlxDialogPiece(data.statements[i]);
+				dialogPiece.getPortrait.add(getPortrait);
+				_statements.insert(data.statements[i].label, dialogPiece);
 			}
 			
-			if (data.prerequisistes != null)
-			{
-				for each ( var xmlPrerequisites:XML in data.prerequisites.attributes() )
-				{
-					_prerequisites.insert(xmlPrerequisites.name(), xmlPrerequisites.toString());
-				}
-			}
-			
-			if (data.setVars != null)
-			{
-				for each ( var xmlVarsToSet:XML in data.setVars.attributes() )
-				{
-					_varsToSet.insert(xmlVarsToSet.name(), xmlVarsToSet.toString());
-				}
-			}
-			
-			// now to load the actual dialog
-			// look at statements
-			for each ( var xmlStatement:XML in data.statements.elements() )
-			{
-				var statement:FlxDialogPiece = new FlxDialogPiece(xmlStatement);
-				
-				// establish opening dialog
-				if(_currentDialog == null)
-				{
-					_currentDialog = statement;
-				}
-				
-				_statements.insert(xmlStatement.label, statement);
-			}
+			// remove redundant data
+			_data.statements = null;
 		}
-
-		public function loadListeners():void
+		
+		public function get properties():Object
 		{
-			for each(var statement:FlxDialogPiece in _statements)
-			{
-				// provide method for loading portraits, but not
-				// loading the same portrait multiple times
-				statement.getPortrait.add(getPortrait);
-			}
+			return _data.properties;
 		}
 		
 		public function getCurrentStatement():FlxDialogPiece
@@ -81,6 +71,12 @@ package org.flixel.dialog
 			return _currentDialog;
 		}
 		
+		/**
+		 * Get the next statement in the conversation, based
+		 * on the given statement label.
+		 * @param	goto	The label to look for for the next statement.
+		 * @return
+		 */
 		public function getNextStatement(goto:String):FlxDialogPiece
 		{
 			if (goto.length > 0)
@@ -94,6 +90,13 @@ package org.flixel.dialog
 			}
 		}
 		
+		/**
+		 * Returns a portrait sprite based on the given label,
+		 * or loads a portrait sprite and returns it if one is
+		 * not already available.
+		 * @param	label	The label of the portrait to look for
+		 * @return	Returns a FlxSprite of the requested sprite
+		 */
 		public function getPortrait(label:String):FlxSprite
 		{
 			if(_portraits.getItem(label) != null)
@@ -109,9 +112,15 @@ package org.flixel.dialog
 			}
 		}
 		
-		public function meetsPrerequisites(saveData:FlxSave):Boolean
+		/**
+		 * Checks to see if the player's game state
+		 * meets the prerequisites for the conversation
+		 * to occur.
+		 * @return Returns true if it does meet the prerequisites
+		 */
+		public function meetsPrerequisites():Boolean
 		{
-			if(_prerequisites.size > 0)
+			if(_data.prerequisites != null)
 			{
 				// @TODO
 				return true;
@@ -122,10 +131,14 @@ package org.flixel.dialog
 			}
 		}
 		
-		public function setVars(saveData:FlxSave):void
+		/**
+		 * Updates variables and saves them to AutoSave
+		 * @param	saveData	The save object to save the data to
+		 */
+		public function setVars(saveData:FlxSaveExtended):void
 		{
 			// @TODO
-			if(_varsToSet.size > 0)
+			if(_data.setvars != null && _data.setvars.conversation != null)
 			{
 				
 			}

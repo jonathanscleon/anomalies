@@ -249,7 +249,7 @@ package general.scenes
 		}
 		
 		override protected function createNPCs():void {
-			var homeOwner:NPC = new NPC(40, 76, Assets.NPC_SPRITE, Assets.TEST_NPC_DIALOG_0, "TEST_NPC_DIALOG_0", add, remove);
+			var homeOwner:NPC = new NPC(40, 76, Assets.NPC_SPRITE, Assets.TEST_NPC_DIALOG_1, "TEST_NPC_DIALOG_1", add, remove);
 			homeOwner.solid = true;
 			homeOwner.immovable = true;
 			homeOwner.z = 4;

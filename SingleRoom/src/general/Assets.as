@@ -1,7 +1,7 @@
 package general
 {
 	import flash.utils.ByteArray;
-	import org.flixel.FlxSave;
+	import org.flixel.FlxSaveExtended;
 	import org.flixel.system.FlxHashMap;
 	/**
 	 * Embeds and imports all assets for the game
@@ -9,11 +9,11 @@ package general
 	 */
 	public class Assets
 	{
-		public static var saveData:FlxSave;
+		public static var saveData:FlxSaveExtended;
 		
 		public static function loadSaveData():void
 		{
-			saveData = new FlxSave();
+			saveData = new FlxSaveExtended();
 			var loaded:Boolean = saveData.bind("AnomaliesTestSaveData");
 			if (loaded && saveData.data.saved == null)
 			//if(loaded)
@@ -25,7 +25,7 @@ package general
 				saveData.data.saved = true;
 				saveData.data.tempInitVar = false;
 				saveData.data.likesSquares = false;
-				saveData.data.conversationFiles = null;
+				saveData.data.conversationFiles = new FlxHashMap();
 			}
 		}
 		
@@ -59,6 +59,7 @@ package general
 		// dialog
 		//[Embed(source = "../../assets/dialog/locations/IndoorHouseLevel/armor.xml")] public static var INDOOR_HOUSE_LEVEL_ARMOR:Class;
 		//[Embed(source = "../../assets/dialog/locations/IndoorHouseLevel/bookcase.xml")] public static var INDOOR_HOUSE_LEVEL_BOOKCASE:Class;
-		[Embed(source = "../../assets/dialog/characters/testnpc.xml", mimeType="application/octet-stream")] public static var TEST_NPC_DIALOG_0:Class;
+		[Embed(source = "../../assets/dialog/characters/testnpc.xml", mimeType = "application/octet-stream")] public static var TEST_NPC_DIALOG_0:Class;
+		[Embed(source = "../../assets/dialog/characters/testnpc.json", mimeType="application/octet-stream")] public static var TEST_NPC_DIALOG_1:Class;
 	}
 }

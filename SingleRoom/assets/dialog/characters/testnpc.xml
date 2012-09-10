@@ -2,8 +2,18 @@
 <data>
 	<conversation>
 		<properties id="intro" type="casual" enabled="true"></properties>
-		<prerequisites talkative="4"></prerequisites>
-		<setvars tempInitVar="true"></setvars>
+		<prerequisites>
+			<game></game>
+			<player></player>
+			<character></character>
+			<conversation></conversation>
+		</prerequisites>
+		<setvars>
+			<game></game>
+			<player></player>
+			<character></character>
+			<conversation></conversation>
+		</setvars>
 		<statements>
 			<statement>
 				<label>question</label>
@@ -12,8 +22,12 @@
 				<text>What do you want to know about?</text>
 				<option_container>
 					<option choice_text="Sqaures">
-						<prerequisites likesSquares="true"></prerequisites>
-						<setvars enabled="false"></setvars>
+						<prerequisites>
+							<character likesSquares="true"></character>
+						</prerequisites>
+						<setvars>
+							<conversation enabled="false"></conversation>
+						</setvars>
 						<goto>squares</goto>
 					</option>
 					<option choice_text="Triangles">
